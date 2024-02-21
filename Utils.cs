@@ -7,5 +7,6 @@ namespace ToDoListApp
         public const string DATABASE = "ToDoListDB";
         public const string CONTAINERNAME = "ToDo";
         public const string CONNECTION = "CosmosDBConnection";
+        public const string CONTAINERREMINDER = "Reminder";
     }
 }

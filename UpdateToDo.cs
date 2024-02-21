@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using TodoAppFunction;
 
 
 namespace ToDoListApp
@@ -14,7 +15,7 @@ namespace ToDoListApp
     public static class UpdateToDo
     {
         [FunctionName("UpdateToDoItem")]
-        public static async Task<IActionResult> UpdateToDoItem(
+        public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "put", Route = "update/{id}")] HttpRequest req,
             [CosmosDB(
                 databaseName: Utils.DATABASE,
@@ -25,7 +26,7 @@ namespace ToDoListApp
             ILogger log,
             string id)
         {
-            log.LogInformation($"Updating To-Do item with ID: {id}.");
+            log.LogInformation($"Updating To-Do item with ID: {id} , item: {doItem}.");
 
             try
             {
@@ -36,6 +37,7 @@ namespace ToDoListApp
 
                 var result = doItem.Update(updatedTodo);
 
+                await EventGridUtil.SendDataToEventGrid(updatedTodo, "Modify/");
 
                 return new OkObjectResult(new { status = "success", message = "To-Do item updated successfully.", data = result});
             }

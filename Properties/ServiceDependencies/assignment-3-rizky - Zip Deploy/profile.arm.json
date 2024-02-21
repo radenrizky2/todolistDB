@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "func-ariq-cobadeploy",
+      "defaultValue": "assignment-3-rizky",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }
